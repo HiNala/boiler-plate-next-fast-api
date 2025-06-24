@@ -1,0 +1,17 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "Full-stack application with Next.js 15 frontend and FastAPI backend",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose -f infra/compose/docker-compose.dev.yml up --build",
+    "dev:down": "docker compose -f infra/compose/docker-compose.dev.yml down",
+    "dev:logs": "docker compose -f infra/compose/docker-compose.dev.yml logs -f",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": ["next.js", "fastapi", "prisma", "docker"],
+  "author": "Developer",
+  "license": "MIT"
+} 

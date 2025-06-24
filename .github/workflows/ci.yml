@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build API Docker image
+        run: |
+          docker build -f infra/docker/api.Dockerfile -t api:test .
+          
+      - name: Test API build
+        run: |
+          echo "API Docker image built successfully"
+
+  lint-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Enable pnpm
+        run: corepack enable pnpm
+        
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          pnpm install --frozen-lockfile
+          
+      - name: Lint
+        run: |
+          cd apps/web
+          pnpm lint
+          
+      - name: Build
+        run: |
+          cd apps/web
+          pnpm build
+
+  # Placeholder for deployment jobs
+  # deploy-api:
+  #   needs: [build-api]
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Deploy to Render
+  #       run: echo "Deploy API to Render"
+  #
+  # deploy-web:
+  #   needs: [lint-web]
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Deploy to Vercel
+  #       run: echo "Deploy Web to Vercel" 
