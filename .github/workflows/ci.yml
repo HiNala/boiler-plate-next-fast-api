@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main ]
 
+# Add permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 env:
   API_URL: http://localhost:8000
   WEB_URL: http://localhost:3000
@@ -16,7 +22,7 @@ jobs:
     
     services:
       postgres:
-        image: postgres:16-alpine
+        image: postgres:17.5-alpine
         env:
           POSTGRES_USER: app
           POSTGRES_PASSWORD: app
@@ -36,13 +42,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22.17.0'
         cache: 'npm'
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13.2'
 
     - name: Install Python dependencies
       run: |
@@ -188,6 +194,10 @@ jobs:
 
   security-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
