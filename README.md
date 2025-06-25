@@ -43,6 +43,14 @@ A production-ready, containerized full-stack application boilerplate with modern
 
 ## 🚀 Quick Start
 
+**⚡ TL;DR - Get Started in 30 seconds:**
+```bash
+git clone https://github.com/HiNala/boiler-plate-next-fast-api.git
+cd boiler-plate-next-fast-api
+docker compose up --build
+# Visit http://localhost:3000 🎉
+```
+
 ### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Git](https://git-scm.com/)
@@ -62,7 +70,7 @@ A production-ready, containerized full-stack application boilerplate with modern
 
 3. **Start the development environment**
    ```bash
-   docker compose -f infra/compose/docker-compose.dev.yml up --build
+   docker compose up --build
    ```
 
 4. **Access the applications**
@@ -93,18 +101,16 @@ boiler-plate-next-fast-api/
 │   └─ 📄 schema.prisma        ⟵ Prisma schema definition
 │
 ├─ 📁 infra/                   ⟵ Infrastructure Configuration
-│   ├─ 📁 docker/              ⟵ Dockerfiles
-│   │   ├─ 📄 web.Dockerfile   ⟵ Next.js container
-│   │   ├─ 📄 api.Dockerfile   ⟵ FastAPI container
-│   │   └─ 📁 postgres/        ⟵ DB initialization scripts
-│   │
-│   └─ 📁 compose/             ⟵ Docker Compose files
-│       └─ 📄 docker-compose.dev.yml
+│   └─ 📁 docker/              ⟵ Dockerfiles & Scripts
+│       ├─ 📄 web.Dockerfile   ⟵ Next.js container
+│       ├─ 📄 api.Dockerfile   ⟵ FastAPI container
+│       └─ 📁 postgres/        ⟵ DB initialization scripts
 │
 ├─ 📁 .github/                 ⟵ GitHub Actions CI/CD
 │   └─ 📁 workflows/
 │       └─ 📄 ci.yml
 │
+├─ 📄 docker-compose.yml       ⟵ Docker orchestration (main)
 ├─ 📄 .env.example             ⟵ Environment variables template
 ├─ 📄 .gitignore
 ├─ 📄 package.json             ⟵ Root workspace scripts
@@ -113,38 +119,48 @@ boiler-plate-next-fast-api/
 
 ## 🔧 Development Commands
 
-### Docker Commands
+### Simple Docker Commands (Run from Root)
 ```bash
 # Start all services
-docker compose -f infra/compose/docker-compose.dev.yml up --build
+docker compose up --build
 
-# Start in background
-docker compose -f infra/compose/docker-compose.dev.yml up -d
+# Start in background  
+docker compose up -d
 
 # Stop all services
-docker compose -f infra/compose/docker-compose.dev.yml down
+docker compose down
 
 # View logs
-docker compose -f infra/compose/docker-compose.dev.yml logs -f
+docker compose logs -f
 
 # Restart specific service
-docker compose -f infra/compose/docker-compose.dev.yml restart api
+docker compose restart api
 ```
 
-### Root Workspace Commands
+### NPM Workspace Commands
 ```bash
-# Start development environment
+# Start development environment (same as docker compose up --build)
 npm run dev
 
 # Stop environment
 npm run dev:down
 
-# View logs
+# View logs  
 npm run dev:logs
 
-# Prisma commands
+# Clean restart with fresh build
+npm run dev:rebuild
+```
+
+### Database Commands
+```bash
+# Generate Prisma client
 npm run prisma:generate
+
+# Create and apply migration
 npm run prisma:migrate
+
+# Open Prisma Studio (Database GUI)
 npm run prisma:studio
 ```
 
@@ -205,44 +221,42 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ## 🗄️ Database Management
 
-### Prisma Commands
-```bash
-# Generate Prisma client
-npx prisma generate
-
-# Create and apply migration
-npx prisma migrate dev --name migration_name
-
-# Open Prisma Studio (Database GUI)
-npx prisma studio
-
-# Reset database
-npx prisma migrate reset
-```
-
-### Schema Management
 The database schema is defined in `prisma/schema.prisma`. The starter includes:
 - User model with basic fields
 - Proper indexing and relationships
 - PostgreSQL-specific features
 
+### Advanced Prisma Commands
+```bash
+# Create a new migration with a name
+npx prisma migrate dev --name migration_name
+
+# Reset database (removes all data)
+npx prisma migrate reset
+
+# Deploy migrations to production
+npx prisma migrate deploy
+```
+
 ## 🚢 Deployment
 
 ### Production Deployment
 1. **Environment Setup**
-   - Copy `.env.example` to `.env.production`
    - Set production environment variables
    - Configure database connection string
+   - Update `FRONTEND_ORIGIN` and `ALLOWED_HOSTS`
 
 2. **Docker Production Build**
    ```bash
-   docker compose -f docker-compose.prod.yml up --build -d
+   # Build and run in production mode
+   docker compose up --build -d
    ```
 
 3. **Platform-Specific Deployment**
-   - **Vercel** (Frontend): Set build output to `apps/web`
-   - **Railway/Render** (Backend): Use `apps/api` as root
-   - **Supabase/RDS** (Database): Update `DATABASE_URL`
+   - **Vercel** (Frontend): Deploy from `apps/web` directory
+   - **Railway/Render** (Backend): Deploy from `apps/api` directory  
+   - **Supabase/RDS** (Database): Update `DATABASE_URL` in environment
+   - **Docker Hub**: Use provided Dockerfiles for container deployment
 
 ## 🧪 Testing
 
@@ -366,7 +380,7 @@ Tests are configured to work with:
 
 **🚀 Quick Start (Cross-Platform)**
 1. **Check compatibility**: `npm run test:platform`
-2. **Start services**: `npm run dev` or `docker compose up --build`
+2. **Start services**: `docker compose up --build`
 3. **Run tests**: `npm run test:health` to verify everything works
 
 **📋 Detailed Setup**
@@ -423,9 +437,14 @@ npx kill-port 3000 8000 5432
 
 **Docker Build Issues**
 ```bash
+# Stop and clean everything
+docker compose down --volumes
+
 # Clean Docker cache
 docker system prune -a
-docker compose down --volumes
+
+# Rebuild from scratch
+docker compose up --build
 ```
 
 **Database Connection Issues**
