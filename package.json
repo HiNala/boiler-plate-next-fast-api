@@ -17,6 +17,7 @@
     "test:web": "cd apps/web && npm run test",
     "test:integration": "node tests/integration/run-tests.js",
     "test:health": "node tests/health-check.js",
+    "test:health:ci": "node tests/ci-health-check.js",
     "test:platform": "node tests/platform-check.js",
     "lint": "npm run lint:web && npm run lint:api",
     "lint:web": "cd apps/web && npm run lint",
