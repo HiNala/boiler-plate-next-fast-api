@@ -1,6 +1,13 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 WORKDIR /app
+
+# Install system dependencies and build tools
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
 ENV POETRY_VERSION=1.8.2

@@ -9,32 +9,51 @@ A production-ready, containerized full-stack application boilerplate with modern
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://prisma.io/)
 
+## 📋 Current Package Versions
+
+| Component | Technology | Version | Why This Version |
+|-----------|------------|---------|------------------|
+| **Frontend** | Next.js | 15.3.4 | Current "latest" tag - fully stable 15-series |
+| | React | 19.1.0 | Bundled automatically by Next.js latest |
+| | TypeScript | 5.8.3 | Official compiler used by Next.js 15 starter |
+| | Tailwind CSS | 4.0.0 | Major v4 rewrite with faster build engine |
+| **Backend** | Python | 3.13 | Current stable CPython; FastAPI tested against it |
+| | FastAPI | 0.115.13 | Latest stable; supports Python 3.13 & Pydantic v2 |
+| | Uvicorn | 0.30+ | ASGI 3-spec compliance with FastAPI latest |
+| | Prisma (Python) | 0.15.0 | Latest Python client for database operations |
+| **Database** | PostgreSQL | 17.5-alpine | Most recent minor; fully supported by Prisma |
+| **Infrastructure** | Docker Engine | 27.5.1+ | Latest with BuildKit v0.18 and containerd 1.7.25 |
+| | Node.js | 22 LTS | Active-LTS line; fulfills ≥18 requirement |
+| | Poetry | 1.8.2 | Python dependency management |
+
+> **🔧 Version Compatibility**: All versions are tested together and form a stable, production-ready stack. See [Version Matrix](docs/Version_Matrix.md) for detailed compatibility information.
+
 ## ✨ Features
 
 ### 🎯 **Frontend (Next.js 15)**
-- ⚛️ **React 19** with Next.js App Router
-- 🎨 **Tailwind CSS** for styling
+- ⚛️ **React 19** with Next.js App Router and Server Components
+- 🎨 **Tailwind CSS 4.0** with faster build engine (~3-4x faster)
 - 📱 **Responsive Design** with mobile-first approach
-- 🔥 **Hot Reload** for instant development feedback
+- 🔥 **Turbopack** for faster development builds (now stable)
 - 🌙 **Dark Mode** support built-in
-- 📖 **TypeScript** for type safety
+- 📖 **TypeScript 5.8** for enhanced type safety and satisfies operators
 
-### 🐍 **Backend (FastAPI)**
-- 🚀 **FastAPI** with automatic API documentation
+### 🐍 **Backend (FastAPI 0.115)**
+- 🚀 **FastAPI** with automatic API documentation and Python 3.13 support
 - 🔒 **Security Middleware** (CORS, TrustedHost)
 - 📊 **Health Check Endpoints** with system monitoring
 - 🔐 **Bearer Token Authentication** ready
 - 📝 **Comprehensive Logging** and error handling
-- 🏷️ **Type Hints** throughout the codebase
+- 🏷️ **Type Hints** with Pydantic v2 integration
 
-### 🐘 **Database (PostgreSQL)**
-- 🗄️ **PostgreSQL 16** for reliable data storage
+### 🐘 **Database (PostgreSQL 17.5)**
+- ��️ **PostgreSQL 17.5** for reliable data storage with latest performance improvements
 - 🔄 **Prisma ORM** for type-safe database queries
 - 📦 **Docker Volumes** for data persistence
 - 🔧 **Migration System** for schema management
 
 ### 🐳 **DevOps & Infrastructure**
-- 🔧 **Docker Compose** for easy orchestration
+- 🔧 **Docker Compose** with latest Engine 27.5+ features
 - 🔄 **Hot Reload** enabled for all services
 - 🌐 **CORS** properly configured
 - 📊 **Health Monitoring** across all services
@@ -52,8 +71,9 @@ docker compose up --build
 ```
 
 ### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (Engine 27.5.1+ recommended)
 - [Git](https://git-scm.com/)
+- [Node.js 22 LTS](https://nodejs.org/) (for local development)
 
 ### Installation
 
@@ -91,7 +111,7 @@ boiler-plate-next-fast-api/
 │   │   ├─ 📄 package.json     ⟵ Frontend dependencies
 │   │   └─ 📄 tailwind.config.ts
 │   │
-│   └─ 📁 api/                 ⟵ FastAPI Backend
+│   └─ 📁 api/                 ⟵ FastAPI Backend (Python 3.13)
 │       ├─ 📁 app/             ⟵ API application code
 │       │   └─ 📄 main.py      ⟵ FastAPI main application
 │       ├─ 📄 pyproject.toml   ⟵ Python dependencies
@@ -102,9 +122,12 @@ boiler-plate-next-fast-api/
 │
 ├─ 📁 infra/                   ⟵ Infrastructure Configuration
 │   └─ 📁 docker/              ⟵ Dockerfiles & Scripts
-│       ├─ 📄 web.Dockerfile   ⟵ Next.js container
-│       ├─ 📄 api.Dockerfile   ⟵ FastAPI container
+│       ├─ 📄 web.Dockerfile   ⟵ Next.js container (Node 22)
+│       ├─ 📄 api.Dockerfile   ⟵ FastAPI container (Python 3.13)
 │       └─ 📁 postgres/        ⟵ DB initialization scripts
+│
+├─ 📁 docs/                    ⟵ Documentation
+│   └─ 📄 Version_Matrix.md    ⟵ Version compatibility matrix
 │
 ├─ 📁 .github/                 ⟵ GitHub Actions CI/CD
 │   └─ 📁 workflows/

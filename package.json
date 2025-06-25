@@ -12,7 +12,7 @@
     "dev:restart": "docker compose restart",
     "dev:rebuild": "docker compose down && docker compose up --build",
     "dev:legacy": "docker compose -f infra/compose/docker-compose.dev.yml up --build",
-    "test": "node run-tests.js",
+    "test": "node tests/run-tests.js",
     "test:api": "cd apps/api && poetry run pytest",
     "test:web": "cd apps/web && npm run test",
     "test:integration": "node tests/integration/run-tests.js",
