@@ -1,6 +1,6 @@
 # 🐍 FastAPI Backend
 
-Modern Python API built with FastAPI 0.115.13, Python 3.13, and PostgreSQL 17.5.
+Modern Python API built with FastAPI 0.115.13, Python 3.13.2, and PostgreSQL 17.5.
 
 ## 🚀 Quick Start
 
@@ -13,7 +13,7 @@ docker compose up --build
 
 ## ✨ Features
 
-- 🚀 **FastAPI 0.115.13** with automatic OpenAPI documentation and Python 3.13 support
+- 🚀 **FastAPI 0.115.13** with automatic OpenAPI documentation and Python 3.13.2 support
 - 🔒 **Security Middleware** (CORS, TrustedHost)
 - 📊 **Health Check Endpoints** with system monitoring
 - 🔐 **Bearer Token Authentication** ready
@@ -28,7 +28,7 @@ docker compose up --build
 apps/api/
 ├─ app/
 │   └─ main.py              ⟵ FastAPI application
-├─ pyproject.toml           ⟵ Python dependencies (Python 3.13)
+├─ pyproject.toml           ⟵ Python dependencies (Python 3.13.2)
 ├─ poetry.lock              ⟵ Dependency lock file
 └─ README.md                ⟵ This file
 ```
@@ -43,9 +43,9 @@ docker compose up --build
 ```
 
 ### Local Development (Optional)
-For API-only development with Python 3.13:
+For API-only development with Python 3.13.2:
 ```bash
-# Install Python dependencies (requires Python 3.13)
+# Install Python dependencies (requires Python 3.13.2+)
 poetry install
 
 # Generate Prisma client
