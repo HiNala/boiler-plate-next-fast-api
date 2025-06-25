@@ -252,8 +252,11 @@ The boilerplate includes a comprehensive testing infrastructure with multiple te
 
 #### Quick Test Commands
 ```bash
-# Run all tests at once
+# Run all tests at once (cross-platform)
 npm run test
+
+# Check platform compatibility first
+npm run test:platform      # Verify system compatibility
 
 # Run specific test suites
 npm run test:health        # Health checks only
@@ -294,6 +297,12 @@ node run-tests.js --help   # Show all options
 - API integration from frontend perspective
 - Performance and accessibility checks
 
+**🔍 Platform Tests** (`tests/platform-check.js`)
+- Cross-platform compatibility verification
+- Dependency availability checking
+- Path handling and shell compatibility
+- Environment variable validation
+
 #### Individual Test Commands
 
 **Frontend Testing**
@@ -325,22 +334,52 @@ node run-tests.js --web-only        # Web tests only
 node run-tests.js --integration     # Integration only
 ```
 
+#### Cross-Platform Compatibility
+
+**🌍 Platform Support**
+- ✅ **Windows** (PowerShell, Command Prompt, Git Bash)
+- ✅ **macOS** (Terminal, Zsh, Bash)
+- ✅ **Linux** (Bash, Zsh, various distributions)
+- ✅ **WSL** (Windows Subsystem for Linux)
+
+**🔧 Automatic Detection**
+- Python command selection (`python` vs `python3`)
+- Path separator handling (Windows `\` vs Unix `/`)
+- Shell command compatibility
+- Dependency availability checks
+
+**🛠️ Cross-Platform Features**
+- Smart dependency detection and fallbacks
+- Universal Docker Compose commands
+- Platform-specific optimizations
+- Error messages with platform-specific guidance
+
 #### Test Configuration
 
 Tests are configured to work with:
 - **Development**: `http://localhost:3000` and `http://localhost:8000`
 - **Custom URLs**: Set `WEB_URL` and `API_URL` environment variables
 - **CI/CD**: Automatic retry logic and timeout handling
-- **Cross-platform**: Works on Windows, macOS, and Linux
+- **Cross-platform**: Automatic platform detection and adaptation
 
 #### Prerequisites for Testing
 
-Before running tests, ensure:
-1. **Services are running**: `npm run dev` or `docker compose up`
-2. **Dependencies installed**: 
-   - API: `cd apps/api && poetry install`
-   - Web: Dependencies installed automatically
-   - Python testing: `pip install pytest requests python-dateutil`
+**🚀 Quick Start (Cross-Platform)**
+1. **Check compatibility**: `npm run test:platform`
+2. **Start services**: `npm run dev` or `docker compose up --build`
+3. **Run tests**: `npm run test:health` to verify everything works
+
+**📋 Detailed Setup**
+- **Docker**: Required for containerized services
+- **Node.js**: v18+ for frontend and test runner
+- **Python**: Optional for API tests (auto-detected: `python` or `python3`)
+- **Poetry**: Optional for enhanced Python dependency management
+
+**🔄 Auto-Installation**
+- Web test dependencies install automatically
+- Python dependencies fall back gracefully
+- Platform-specific commands detected automatically
+- Missing tools provide helpful installation guidance
 
 #### Continuous Integration
 

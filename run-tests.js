@@ -183,20 +183,38 @@ async function runLinting() {
   
   let lintResults = [];
   
-  // Lint API (Python)
+  // Lint API (Python) - Cross-platform approach
   try {
     log(`${colors.cyan}Linting API (Python)...${colors.reset}`);
-    await runCommand('cd', ['apps/api && poetry run ruff check .'], { shell: true });
+    const apiDir = path.join(process.cwd(), 'apps', 'api');
+    
+    // Check if Poetry is available
+    try {
+      await runCommand('poetry', ['--version'], { cwd: apiDir });
+      await runCommand('poetry', ['run', 'ruff', 'check', '.'], { cwd: apiDir });
+    } catch (poetryError) {
+      // Fallback to direct ruff if Poetry is not available
+      await runCommand('ruff', ['check', '.'], { cwd: apiDir });
+    }
+    
     lintResults.push({ name: 'API (Python)', status: 'passed' });
   } catch (error) {
-    log(`${colors.yellow}⚠️  API linting issues found${colors.reset}`);
+    log(`${colors.yellow}⚠️  API linting issues found (or ruff/poetry not installed)${colors.reset}`);
     lintResults.push({ name: 'API (Python)', status: 'failed', error: error.message });
   }
   
-  // Lint Web (ESLint)
+  // Lint Web (ESLint) - Cross-platform approach
   try {
     log(`${colors.cyan}Linting Web (ESLint)...${colors.reset}`);
-    await runCommand('cd', ['apps/web && npm run lint'], { shell: true });
+    const webDir = path.join(process.cwd(), 'apps', 'web');
+    
+    // Check if node_modules exists
+    if (!fs.existsSync(path.join(webDir, 'node_modules'))) {
+      log(`${colors.yellow}📦 Installing web dependencies for linting...${colors.reset}`);
+      await runCommand('npm', ['install'], { cwd: webDir });
+    }
+    
+    await runCommand('npm', ['run', 'lint'], { cwd: webDir });
     lintResults.push({ name: 'Web (ESLint)', status: 'passed' });
   } catch (error) {
     log(`${colors.yellow}⚠️  Web linting issues found${colors.reset}`);
