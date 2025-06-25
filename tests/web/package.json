@@ -1,0 +1,27 @@
+{
+  "name": "web-tests",
+  "version": "1.0.0",
+  "description": "Tests for Next.js frontend",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jsdom": "^23.0.0",
+    "node-fetch": "^3.3.2",
+    "@jest/globals": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**"
+    ],
+    "testTimeout": 15000
+  }
+} 

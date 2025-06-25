@@ -246,20 +246,110 @@ The database schema is defined in `prisma/schema.prisma`. The starter includes:
 
 ## 🧪 Testing
 
-### Frontend Testing
+### Comprehensive Test Suite
+
+The boilerplate includes a comprehensive testing infrastructure with multiple test types:
+
+#### Quick Test Commands
+```bash
+# Run all tests at once
+npm run test
+
+# Run specific test suites
+npm run test:health        # Health checks only
+npm run test:integration   # Integration tests
+npm run test:api          # API tests (pytest)
+npm run test:web          # Web tests (Jest)
+
+# Or use the test runner directly
+node run-tests.js          # Run all tests
+node run-tests.js --help   # Show all options
+```
+
+#### Test Types
+
+**🏥 Health Checks** (`tests/health-check.js`)
+- Verifies all services are running and responding
+- Tests API endpoints and web frontend accessibility
+- Validates CORS configuration
+- Checks response times and service health
+
+**🔗 Integration Tests** (`tests/integration/`)
+- End-to-end functionality testing
+- API response time and content type validation
+- Error handling verification
+- Security headers and environment configuration
+- Full-stack communication testing
+
+**🐍 API Tests** (`tests/api/`)
+- Python pytest-based testing for FastAPI
+- Comprehensive endpoint testing
+- Error handling and performance tests
+- Authentication and security validation
+- Response format and data validation
+
+**🌐 Web Tests** (`tests/web/`)
+- Jest-based testing for Next.js frontend
+- Page loading and rendering tests
+- API integration from frontend perspective
+- Performance and accessibility checks
+
+#### Individual Test Commands
+
+**Frontend Testing**
 ```bash
 cd apps/web
-npm run test        # Run tests
+npm run test        # Run Next.js tests
 npm run test:watch  # Watch mode
 npm run lint        # ESLint
 ```
 
-### Backend Testing
+**Backend Testing**
 ```bash
 cd apps/api
-poetry run pytest  # Run tests
-poetry run coverage run -m pytest  # With coverage
+poetry run pytest tests/api/ -v     # Run API tests
+poetry run pytest --coverage        # With coverage
 ```
+
+**Standalone Test Scripts**
+```bash
+# Health checks
+node tests/health-check.js
+
+# Integration tests  
+node tests/integration/run-tests.js
+
+# Comprehensive test runner
+node run-tests.js --api-only        # API tests only
+node run-tests.js --web-only        # Web tests only
+node run-tests.js --integration     # Integration only
+```
+
+#### Test Configuration
+
+Tests are configured to work with:
+- **Development**: `http://localhost:3000` and `http://localhost:8000`
+- **Custom URLs**: Set `WEB_URL` and `API_URL` environment variables
+- **CI/CD**: Automatic retry logic and timeout handling
+- **Cross-platform**: Works on Windows, macOS, and Linux
+
+#### Prerequisites for Testing
+
+Before running tests, ensure:
+1. **Services are running**: `npm run dev` or `docker compose up`
+2. **Dependencies installed**: 
+   - API: `cd apps/api && poetry install`
+   - Web: Dependencies installed automatically
+   - Python testing: `pip install pytest requests python-dateutil`
+
+#### Continuous Integration
+
+The test suite supports CI/CD with:
+- Exit codes for pass/fail detection
+- Colored output for better readability
+- Retry logic for flaky network tests
+- Service availability checking
+- Performance benchmarking
 
 ## 🛠️ Troubleshooting
 

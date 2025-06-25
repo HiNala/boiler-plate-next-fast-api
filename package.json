@@ -1,17 +1,52 @@
 {
-  "name": "my-project",
+  "name": "boiler-plate-next-fast-api",
   "version": "1.0.0",
-  "description": "Full-stack application with Next.js 15 frontend and FastAPI backend",
+  "description": "Full-stack boilerplate with Next.js 15, FastAPI, and PostgreSQL",
   "private": true,
   "scripts": {
-    "dev": "docker compose -f infra/compose/docker-compose.dev.yml up --build",
-    "dev:down": "docker compose -f infra/compose/docker-compose.dev.yml down",
-    "dev:logs": "docker compose -f infra/compose/docker-compose.dev.yml logs -f",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "dev": "docker compose up --build",
+    "dev:detached": "docker compose up --build -d",
+    "dev:down": "docker compose down",
+    "dev:clean": "docker compose down --volumes --remove-orphans",
+    "dev:logs": "docker compose logs -f",
+    "dev:restart": "docker compose restart",
+    "dev:rebuild": "docker compose down && docker compose up --build",
+    "dev:legacy": "docker compose -f infra/compose/docker-compose.dev.yml up --build",
+    "test": "node run-tests.js",
+    "test:api": "cd apps/api && poetry run pytest",
+    "test:web": "cd apps/web && npm run test",
+    "test:integration": "node tests/integration/run-tests.js",
+    "test:health": "node tests/health-check.js",
+    "lint": "npm run lint:web && npm run lint:api",
+    "lint:web": "cd apps/web && npm run lint",
+    "lint:api": "cd apps/api && poetry run flake8 .",
+    "prisma:generate": "cd apps/api && poetry run prisma generate",
+    "prisma:migrate": "cd apps/api && poetry run prisma migrate dev",
+    "prisma:studio": "cd apps/api && poetry run prisma studio",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up",
+    "docker:down": "docker compose down",
+    "docker:clean": "docker compose down --volumes --remove-orphans && docker system prune -f",
+    "setup": "cp .env.example .env && echo 'Environment file created. Please review .env file and update as needed.'"
   },
-  "keywords": ["next.js", "fastapi", "prisma", "docker"],
-  "author": "Developer",
-  "license": "MIT"
+  "keywords": [
+    "nextjs",
+    "fastapi",
+    "postgresql",
+    "docker",
+    "typescript",
+    "python",
+    "fullstack",
+    "boilerplate"
+  ],
+  "author": "HiNala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HiNala/boiler-plate-next-fast-api.git"
+  },
+  "devDependencies": {
+    "axios": "^1.6.0",
+    "node-fetch": "^3.3.2"
+  }
 } 
