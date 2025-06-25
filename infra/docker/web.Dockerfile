@@ -5,19 +5,16 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY apps/web/package*.json ./
 
-# Install dependencies and generate new lock file
+# Install dependencies
 RUN npm install
 
-# Copy configuration files
-COPY apps/web/*.json ./
-COPY apps/web/*.js ./
-COPY apps/web/*.ts ./
-COPY apps/web/*.mjs ./
+# Copy the entire web application at once to avoid context issues
+COPY apps/web/ ./
 
-# Copy source code
-COPY apps/web/src ./src
-COPY apps/web/lib ./lib
-COPY apps/web/public ./public
+# Remove any local development files that shouldn't be in container
+RUN rm -rf node_modules/.cache \
+    && rm -rf .next \
+    && rm -f .env.local
 
 # Set environment variables
 ENV NODE_ENV=development
