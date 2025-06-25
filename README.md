@@ -383,12 +383,33 @@ Tests are configured to work with:
 
 #### Continuous Integration
 
-The test suite supports CI/CD with:
-- Exit codes for pass/fail detection
-- Colored output for better readability
-- Retry logic for flaky network tests
-- Service availability checking
-- Performance benchmarking
+**🔄 GitHub Actions Pipeline**
+- Automated testing on every push and pull request
+- Cross-platform compatibility testing (Ubuntu latest)
+- Comprehensive service health checking with retry logic
+- Security scanning with Trivy vulnerability detection
+- Docker image building and tagging
+
+**🛠️ CI/CD Features**
+- PostgreSQL service integration with health checks
+- Automatic dependency installation (Node.js, Python, Poetry)
+- Platform compatibility verification
+- Service startup verification with detailed logging
+- Robust error handling and debugging information
+
+**📊 Test Coverage in CI**
+- Health checks with CI-optimized script
+- Integration tests for end-to-end functionality
+- API tests with pytest (when available)
+- Web tests with Jest framework
+- Code linting for both frontend and backend
+
+**🔍 CI-Specific Optimizations**
+- Simplified health check script for CI environments
+- Enhanced timeout handling and retry logic
+- Detailed debugging output for troubleshooting
+- Non-blocking security scans to prevent false failures
+- Proper exit codes for pipeline integration
 
 ## 🛠️ Troubleshooting
 
